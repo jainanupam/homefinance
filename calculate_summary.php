@@ -29,8 +29,6 @@ if($stmt = $conn->prepare($sql)){
 
   $stmt->fetch();
 
-  echo 'Total expense: '.$total_expense.'<br>';
-
   $stmt->close();
 } else {
   echo "can't initialize the total expenditure statement";
@@ -67,6 +65,17 @@ if($stmt = $conn->prepare($sql)){
     $user_ids[] = $result_id;
     $expenses[] = $result_ex;
     //echo 'User ID: '.$result_id.' expense: '.$result_ex.' <br>';
+  }
+
+  // calculate average expense to be made by each member
+  $avg = $total_expense / $i;
+
+  echo 'Total expense: '.$total_expense.'. Per person expense: '.$avg.'<br><br>';
+
+  for($j=0; $j<$i; $j++){
+    $diff = $expenses[$j] - $avg;
+    echo 'User ID: '.$user_ids[$j].' total expense made: '.$expenses[$j].
+    ' balance: '.$diff.' <br>';
   }
 
   $stmt->close();
